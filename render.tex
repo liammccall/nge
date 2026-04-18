@@ -1,0 +1,47 @@
+
+\documentclass[12pt]{article}
+
+
+\begin{document}
+
+We show that composition of morphisms in a category is associative.
+
+Let $\mathcal{C}$ be a category and let
+$f: a \to b$, $g: b \to c$, and $h: c \to d$ be morphisms in $\mathcal{C}$.
+
+We must show:
+\[
+(g \circ f) \circ h = g \circ (f \circ h).
+\]
+
+\textbf{Proof:}
+
+By the definition of composition in a category, composition is defined so that
+for any morphisms whose domains and codomains match appropriately, the result
+is again a morphism.
+
+Thus, for any object $x$,
+\[
+((g \circ f) \circ h)(x)
+= (g \circ f)(h(x))
+= g(f(h(x))).
+\]
+
+Similarly,
+\[
+(g \circ (f \circ h))(x)
+= g((f \circ h)(x))
+= g(f(h(x))).
+\]
+
+Since both expressions agree on all inputs $x$, we conclude that
+\[
+(g \circ f) \circ h = g \circ (f \circ h).
+\]
+
+
+\end{document}
+%%% Local Variables:
+%%% mode: plain-TeX
+%%% TeX-master: t
+%%% End:
