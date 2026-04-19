@@ -42,25 +42,36 @@ llm = Llama(
     # n_gpu_layers=8      # 1050 Ti can handle small offload
 )
 
-def call_local(prompt: str):
+def call_local(user: str, system: str):
+    # tokens = llm.tokenize(prompt.encode())
+    # max_input = llm.n_ctx() - 64  # reserve 512 for output
+    # llm.reset()
+    
+    # if len(tokens) > max_input:
+    #     tokens = tokens[:max_input]
+    #     prompt = llm.detokenize(tokens).decode()
+    
     try:
-        output = llm(
-            prompt,
-            max_tokens=2048,
+        output = llm.create_chat_completion(
+            messages=[
+                {"role": "system", "content" : system},
+                {"role": "user", "content": user}
+            ],
             temperature=0.7,
-        )
-        return {"text": output["choices"][0]["text"]}
+            max_tokens=128
+            )
+        return {"text": output["choices"][0]["message"]["content"]}
     except Exception as e:
-        return {"error": str(e)}
+        return {"text": str(e)}
 # -----------------------------
 # Router logic
 # -----------------------------
-def run_model(prompt: str):
+def run_model(user_msg: str, sys_msg: str):
     # if MODE == "hf":
     #     return call_hf(prompt)
 
     if MODE == "local":
-        return call_local(prompt)
+        return call_local(user_msg, sys_msg)
 
 # -----------------------------
 # API endpoint
@@ -73,10 +84,11 @@ def chat_api(request):
     try:
         data = json.loads(request.body.decode("utf-8"))
         user_msg = data.get("user", "")
+        sys_msg = data.get("system", "")
     except Exception:
         return JsonResponse({"error": "invalid json"}, status=400)
 
-    result = run_model(user_msg)
+    result = run_model(user_msg,sys_msg)
     return JsonResponse(result)
 
 def home(request):
