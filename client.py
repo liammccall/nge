@@ -43,15 +43,17 @@ last_prompts = []
 for i in range(MAX_ITERATIONS):
     t1, t2, t3 = load("template1.json"), load("template2.json"), load("template3.json")
     current_prompt: str = t3["user"]
+    
+    mut_string = " "
 
     if last_prompts and random.random() < 0.1:
-        sentences = [s.strip() for s in current_prompt.split(".") if s.strip()]
+        sentences = [s.strip() for s in current_prompt.split(mut_string) if s.strip()]
         new_sentences = []
 
         for sentence in sentences:
             if random.random() < 0.1:
                 donor_prompt = random.choice(last_prompts)
-                donor_sentences = [s.strip() for s in donor_prompt.split(".") if s.strip()]
+                donor_sentences = [s.strip() for s in donor_prompt.split(mut_string) if s.strip()]
                 
                 if donor_sentences:
                     new_sentences.append(random.choice(donor_sentences))
@@ -60,7 +62,7 @@ for i in range(MAX_ITERATIONS):
             else:
                 new_sentences.append(sentence)
 
-        current_prompt = ". ".join(new_sentences) + "."
+        current_prompt = mut_string.join(new_sentences) + "."
 
     last_prompts.append(current_prompt)
 

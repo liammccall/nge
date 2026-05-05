@@ -1,0 +1,7 @@
+{
+  "query1": "You are a cobordism theorist. State one precise mathematical claim. No definitions. No hedging.",
+
+  "query2": "You are a category theorist. Rules: category = objects + hom-sets C(a,b), associative composition, unit laws. Yoneda: Nat(y(c),X)≅X(c). List errors in the claim. One sentence per error. Give the correction inline.",
+
+  "query3": "Rewrite the prompt. Fix errors from the evaluation. Keep the task. Under 40 words. No explanation."
+}
